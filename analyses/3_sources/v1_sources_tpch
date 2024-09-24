@@ -1,7 +1,7 @@
 sources:
   - name: tpch
-    schema: TPCH_SF1
-    database: SNOWFLAKE_SAMPLE_DATA
+    schema: TPCH_SF001
+    database: RAW
     tables:
       - name: part_suppliers
         identifier: PARTSUPP

@@ -1,17 +1,3 @@
---CALL ANALYTICS.dbt_grose_SPs_Dev.tpch_parts(); 
---select * from fct_tpch_parts
---select * from fct_tpch_parts_log
-
--- this is a typical "version control comment"
--- 2024-09-24 - updated X to include column Y
-
-CREATE OR REPLACE PROCEDURE ANALYTICS.dbt_grose_SPs_Dev.tpch_parts()
-RETURNS VARCHAR
-LANGUAGE SQL
-AS
-$$
-BEGIN
-
 create
 or replace table fct_tpch_parts(
     supplier_id string,
@@ -87,9 +73,9 @@ select
     end as part_material,
     parts.p_comment as part_comment
 from
-    raw.tpch_sf001.SUPPLIER suppliers
-    left join raw.tpch_sf001.PARTSUPP part_suppliers on suppliers.s_suppkey = part_suppliers.ps_suppkey
-    left join raw.tpch_sf001.PART parts on parts.p_partkey = part_suppliers.ps_partkey;
+    SNOWFLAKE_SAMPLE_DATA.TPCH_SF1.SUPPLIER suppliers
+    left join SNOWFLAKE_SAMPLE_DATA.TPCH_SF1.PARTSUPP part_suppliers on suppliers.s_suppkey = part_suppliers.ps_suppkey
+    left join SNOWFLAKE_SAMPLE_DATA.TPCH_SF1.PART parts on parts.p_partkey = part_suppliers.ps_partkey
 
 
 ALTER TABLE
@@ -115,8 +101,8 @@ FROM
             r_name as region,
             r_comment as region_comment
         from
-            raw.tpch_sf001.NATION nations
-            left join raw.tpch_sf001.REGION regions on nations.n_regionkey = regions.r_regionkey
+            SNOWFLAKE_SAMPLE_DATA.TPCH_SF1.NATION nations
+            left join SNOWFLAKE_SAMPLE_DATA.TPCH_SF1.REGION regions on nations.n_regionkey = regions.r_regionkey
     ) locations
 WHERE
     fct_tpch_parts.nation_id = locations.nation_id;
@@ -129,11 +115,12 @@ FROM
     (
         SELECT
             part_id,
+            region_id,
             min(part_supplier_cost) as lowest_part_cost_in_region
         FROM
             fct_tpch_parts
         GROUP BY
-            part_id
+            part_id, region_id
     ) min_parts
 WHERE
     fct_tpch_parts.part_id = min_parts.part_id;
@@ -161,8 +148,3 @@ WHERE
         from fct_tpch_parts 
         inner join fct_tpch_parts_log
         on fct_tpch_parts.part_id = fct_tpch_parts_log.part_id);
-    
-END;
-$$;
-
-CALL ANALYTICS.dbt_grose_SPs_Dev.tpch_parts();

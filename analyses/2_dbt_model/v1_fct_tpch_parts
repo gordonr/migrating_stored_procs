@@ -25,6 +25,6 @@ select
     end as part_material,
     parts.p_comment as part_comment
 from
-    SNOWFLAKE_SAMPLE_DATA.TPCH_SF1.SUPPLIER suppliers
-    left join SNOWFLAKE_SAMPLE_DATA.TPCH_SF1.PARTSUPP part_suppliers on suppliers.s_suppkey = part_suppliers.ps_suppkey
-    left join SNOWFLAKE_SAMPLE_DATA.TPCH_SF1.PART parts on parts.p_partkey = part_suppliers.ps_partkey
+    raw.tpch_sf001.SUPPLIER suppliers
+    left join raw.tpch_sf001.PARTSUPP part_suppliers on suppliers.s_suppkey = part_suppliers.ps_suppkey
+    left join raw.tpch_sf001.PART parts on parts.p_partkey = part_suppliers.ps_partkey

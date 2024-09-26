@@ -7,4 +7,5 @@ SELECT
             r_comment as region_comment
         from
             {{ ref('stg_tpch__nations') }} nations
-            left join {{ ref('stg_tpch__regions') }} regions on nations.n_regionkey = regions.r_regionkey
+            left join {{ ref('stg_tpch__regions') }} regions on 
+            nations.n_regionkey = regions.r_regionkey

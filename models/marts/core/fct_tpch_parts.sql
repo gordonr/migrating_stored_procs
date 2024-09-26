@@ -63,7 +63,7 @@ final as (
        fct_tpch_parts.*,
        min_parts.lowest_part_cost_in_region
     from fct_tpch_parts
-    left join min_parts on  fct_tpch_parts.part_id = min_parts.part_id
+    left join min_parts on fct_tpch_parts.part_id = min_parts.part_id
 )
 
 select * from final
